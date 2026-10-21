@@ -21,11 +21,14 @@ desc: |
   **配置**：回顾时刻、两个库名、笔记目录、事件文件、条数与字数上限都在插件配置页。
   默认值等于自用部署的档位，想更克制就往下调。
 
-  **前置**：需要一个已存在的「事实」知识库（默认名 `长期记忆`，由写入侧插件创建），
-  本插件借用它的 embedding / rerank provider 建回顾库；知识库不存在时会跳过写库，
-  只写日记。
+  **前置（必须）**：先装 **`astrbot_plugin_memory_digest`（长期记忆·写入侧）** —— 它就是本插件依赖的
+  embedding 插件。事实知识库由它创建，回顾库借用它的 embedding / rerank provider。
+
+  **还必须先把 embedding 模型配好**：在它的插件配置页，或插件详情页的「Embedding 控制台」里
+  选好来源（跟随知识库 / 云端 API / 本机服务）并保存，让它创建并绑定 embedding provider。
+  没配好时本插件建不了回顾库，表现是「反思 0 条、日记照写」，日志里会打 `[回顾] 建库失败`。
 author: Lansheen3096
-version: 0.1.0
+version: 0.1.1
 repo: https://github.com/Lansheen3096/astrbot_plugin_self_review
 astrbot_version: ">=4.28.2"
 tags:

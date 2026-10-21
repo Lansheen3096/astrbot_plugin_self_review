@@ -2,7 +2,7 @@
 
 **自我回顾**：每天定点把「昨天」想一遍 —— 提炼 ≤3 条反思写进独立知识库，再写一篇日记。
 
-版本 `0.1.0` · AstrBot `>= 4.28.2`
+版本 `0.1.1` · AstrBot `>= 4.28.2`
 
 ---
 
@@ -63,11 +63,23 @@
 
 默认值是自用部署的档位，想更克制就往下调。
 
-## 前置依赖
+## 前置依赖（必须先做）
 
-- 需要一个已存在的**事实知识库**（默认名 `长期记忆`），本插件借它的 embedding / rerank provider 建回顾库。
-  找不到事实库时跳过写库，只写日记 —— 不报错，但反思不会进库。
-- 事实库要有一个 rerank provider，否则检索侧注入质量下降（不影响写库）。
+**先装 [`astrbot_plugin_memory_digest`](https://github.com/Lansheen3096/astrbot_plugin_memory_digest)
+（长期记忆·写入侧）** —— 它就是本插件依赖的 **embedding 插件**，embedding 能力全在它那里。
+顺序照下面来，缺一步本插件就写不进库：
+
+1. 用它在 WebUI 建好**事实知识库**（默认名 `长期记忆`），本插件的 `fact_kb_name` 要填同一个名字；
+2. 在它的**插件配置页**，或插件详情页的「**Embedding 控制台**」里，**配好 embedding 模型**
+   （跟随知识库 / 云端 API / 本机服务三选一），保存后由它创建并绑定 `memory_layer_embedding`；
+3. 回顾库（默认名 `自我回顾`）由本插件借这套 provider 按需创建。
+
+⚠️ **embedding 没配好 = 建不了回顾库**。表现是「反思 0 条、日记照写」，
+日志里能看到 `[回顾] 建库失败`。事实库本身不存在时也会跳过写库，同样只写日记。
+
+其余：
+
+- 事实库建议配一个 rerank provider，否则检索侧注入质量下降（不影响写库）。
 - 日记与笔记目录默认落在 AstrBot 数据目录下，容器部署注意挂载卷。
 
 ## 安装
@@ -75,11 +87,12 @@
 ```bash
 # AstrBot 插件市场搜索「自我回顾」，或：
 cd <AstrBot>/data/plugins
-git clone --depth 1 --branch v0.1.0 https://github.com/Lansheen3096/astrbot_plugin_self_review
+git clone --depth 1 --branch v0.1.1 https://github.com/Lansheen3096/astrbot_plugin_self_review
 # docker 部署：拷进宿主机挂载的数据目录后重启容器
 docker compose restart astrbot
 ```
 
+装之前先确认 `astrbot_plugin_memory_digest` 已装、embedding 模型已配好（见上一节）。
 装完要**重启 AstrBot** 才生效（插件目录不热加载）。
 
 ## 日志

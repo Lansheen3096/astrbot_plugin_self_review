@@ -634,7 +634,10 @@ class Main(star.Star):
             return kb
         fact = await self.context.kb_manager.get_kb_by_name(self.fact_kb)
         if fact is None:
-            logger.warning(f"[回顾] 找不到事实库「{self.fact_kb}」，没法建新库")
+            logger.warning(
+                f"[回顾] 找不到事实库「{self.fact_kb}」，没法建新库 —— 需要先装"
+                " astrbot_plugin_memory_digest（长期记忆·写入侧），并在它那里建库、配好 embedding 模型"
+            )
             return None
         try:
             kb = await self.context.kb_manager.create_kb(
@@ -648,7 +651,9 @@ class Main(star.Star):
             self._state["self_kb_id"] = kb.kb.kb_id
             return kb
         except Exception as exc:  # noqa: BLE001
-            logger.error(f"[回顾] 建库失败: {exc}")
+            logger.error(
+                f"[回顾] 建库失败（先确认 embedding 模型已配好并绑定事实库）: {exc}"
+            )
             return None
 
     async def _write_kb(self, refs: list[dict], day: str) -> int:
