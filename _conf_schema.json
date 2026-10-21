@@ -1,0 +1,85 @@
+{
+  "_time_section": {
+    "description": "=== 回顾时刻 ===",
+    "type": "text",
+    "invisible": true
+  },
+  "hour": {
+    "description": "每天几点回顾",
+    "type": "int",
+    "default": 5,
+    "slider": { "min": 0, "max": 23, "step": 1 },
+    "hint": "按容器时区算。默认 5 点：整理的是「昨天」。"
+  },
+  "minute": {
+    "description": "分钟",
+    "type": "int",
+    "default": 20,
+    "slider": { "min": 0, "max": 59, "step": 1 }
+  },
+  "_kb_section": {
+    "description": "=== 知识库 ===",
+    "type": "text",
+    "invisible": true
+  },
+  "fact_kb_name": {
+    "description": "事实知识库名",
+    "type": "string",
+    "default": "长期记忆",
+    "hint": "★ 必须和写入侧插件里配置的知识库名一致。本插件从这里读「昨天入库的事实」，并借用它的 embedding / rerank provider 建回顾库。"
+  },
+  "self_kb_name": {
+    "description": "回顾知识库名",
+    "type": "string",
+    "default": "自我回顾",
+    "hint": "反思写进这里，和事实库分开。不存在时会按需创建；建议和事实库分开建，避免推断顶掉事实。"
+  },
+  "_io_section": {
+    "description": "=== 输入输出 ===",
+    "type": "text",
+    "invisible": true
+  },
+  "notes_dir": {
+    "description": "笔记目录",
+    "type": "string",
+    "default": "",
+    "hint": "留空 = 数据目录下的 notes/。日记写到它的 diary/ 子目录，回顾时也会读 diary/ 与 notes/ 里已有的内容。"
+  },
+  "events_path": {
+    "description": "行为记录文件（jsonl）",
+    "type": "string",
+    "default": "",
+    "hint": "留空 = 数据目录下的 events.jsonl。每行一个对象，用到 ts / kind / text 三个字段；没有这个文件也能跑。"
+  },
+  "_limit_section": {
+    "description": "=== 产出上限 ===",
+    "type": "text",
+    "invisible": true
+  },
+  "max_reflections": {
+    "description": "每次最多几条反思",
+    "type": "int",
+    "default": 3,
+    "slider": { "min": 0, "max": 10, "step": 1 },
+    "hint": "0 = 只写日记。默认 3。"
+  },
+  "max_text": {
+    "description": "单条反思字数上限",
+    "type": "int",
+    "default": 80,
+    "slider": { "min": 20, "max": 300, "step": 10 }
+  },
+  "max_diary": {
+    "description": "日记字数上限",
+    "type": "int",
+    "default": 400,
+    "slider": { "min": 100, "max": 2000, "step": 50 }
+  },
+  "inject_max": {
+    "description": "每轮最多注入几条反思",
+    "type": "int",
+    "default": 2,
+    "slider": { "min": 0, "max": 5, "step": 1 },
+    "hint": "0 = 关闭注入。"
+  }
+}

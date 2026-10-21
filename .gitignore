@@ -1,0 +1,52 @@
+# ── 运行时产物：状态、日志、日记、笔记都在数据目录，不进仓库 ──
+state.json
+review_log.jsonl
+*.jsonl
+notes/
+diary/
+data/
+data_v4.db
+*.db
+*.db-journal
+*.faiss
+
+# ── 本机私有素材：设计稿、参考材料、训练数据、补丁、调试产物 ──
+设计稿*.md
+refs/
+training/
+patches/
+comfy-bridge/
+tools-local/
+*.local.*
+*.private.*
+
+# ── 凭据 ──
+.env
+.env.*
+credentials.json
+secrets.json
+*.pem
+*.key
+
+# ── 历史备份与脱敏对照（对照 diff 带着改动前原文，绝不入库）──
+*.bak
+*.bak-*
+*.pre-*
+*.orig
+*.rej
+sanitize*.diff
+diff-*.txt
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# ── 编辑器 / 系统 ──
+.DS_Store
+.idea/
+.vscode/
